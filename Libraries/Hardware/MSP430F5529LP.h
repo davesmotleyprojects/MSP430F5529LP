@@ -3039,10 +3039,9 @@ typedef volatile union
  *   Timer0_A5
  *#########################################################################*/
 
-
 typedef volatile union
 {
-    uint16_t reg;     /* Timer0_A5 Control */
+    uint16_t reg;   /* Timer0_A5 Control */
     struct
     {
         uint16_t TAIFG            : 1; /* Timer A counter interrupt flag */
@@ -3055,14 +3054,14 @@ typedef volatile union
     } bits;
 } TA0CTL_t;
 
-#define p_TA0CTL                ((TA0CTL_t              *) 0x0340u)
+#define p_TA0CTL                ((TA0CTL_t          *) 0x0340u)
 #define TA0CTL                  p_TA0CTL->reg
 #define TA0CTL_bits             p_TA0CTL->bits
 
 
 typedef volatile union
 {
-    uint16_t reg;   /* Timer0_A5 Capture/Compare Control 0 */
+    uint16_t reg;   /* Timer0_A5 Capture/Compare Control */
     struct
     {
         uint16_t CCIFG            : 1; /* Capture/compare interrupt flag */
@@ -3078,117 +3077,41 @@ typedef volatile union
         uint16_t CCISx            : 2; /* Capture input select bits */
         uint16_t CMx              : 2; /* Capture mode bits */
     } bits;
-} TA0CCTL0_t;
+} TA0CCTLx_t;
 
-#define p_TA0CCTL0              ((TA0CCTL0_t            *) 0x0342u)
+  /* Timer0_A5 Capture/Compare Control 0 */
+#define p_TA0CCTL0              ((TA0CCTLx_t        *) 0x0342u)
 #define TA0CCTL0                p_TA0CCTL0->reg
 #define TA0CCTL0_bits           p_TA0CCTL0->bits
 
-
-typedef volatile union
-{
-    uint16_t reg;   /* Timer0_A5 Capture/Compare Control 1 */
-    struct
-    {
-        uint16_t CCIFG            : 1; /* Capture/compare interrupt flag */
-        uint16_t COV              : 1; /* Capture/compare overflow flag */
-        uint16_t OUT              : 1; /* PWM Output signal if output mode 0 */
-        uint16_t CCI              : 1; /* Capture input signal (read) */
-        uint16_t CCIE             : 1; /* Capture/compare interrupt enable */
-        uint16_t OUTMODx          : 3; /* Output mode bits */
-        uint16_t CAP              : 1; /* Capture mode: 1 /Compare mode : 0 */
-        uint16_t                  : 1;
-        uint16_t SCCI             : 1; /* Latched capture signal (read) */
-        uint16_t SCS              : 1; /* Capture sychronize */
-        uint16_t CCISx            : 2; /* Capture input select bits */
-        uint16_t CMx              : 2; /* Capture mode bits */
-    } bits;
-} TA0CCTL1_t;
-
-#define p_TA0CCTL1              ((TA0CCTL1_t        *) 0x0344u)
+  /* Timer0_A5 Capture/Compare Control 1 */
+#define p_TA0CCTL1              ((TA0CCTLx_t        *) 0x0344u)
 #define TA0CCTL1                p_TA0CCTL1->reg
 #define TA0CCTL1_bits           p_TA0CCTL1->bits
 
-
-typedef volatile union
-{
-    uint16_t reg;   /* Timer0_A5 Capture/Compare Control 2 */
-    struct
-    {
-        uint16_t CCIFG            : 1; /* Capture/compare interrupt flag */
-        uint16_t COV              : 1; /* Capture/compare overflow flag */
-        uint16_t OUT              : 1; /* PWM Output signal if output mode 0 */
-        uint16_t CCI              : 1; /* Capture input signal (read) */
-        uint16_t CCIE             : 1; /* Capture/compare interrupt enable */
-        uint16_t OUTMODx          : 3; /* Output mode bits */
-        uint16_t CAP              : 1; /* Capture mode: 1 /Compare mode : 0 */
-        uint16_t                  : 1;
-        uint16_t SCCI             : 1; /* Latched capture signal (read) */
-        uint16_t SCS              : 1; /* Capture sychronize */
-        uint16_t CCISx            : 2; /* Capture input select bits */
-        uint16_t CMx              : 2; /* Capture mode bits */
-    } bits;
-} TA0CCTL2_t;
-
-#define p_TA0CCTL2              ((TA0CCTL2_t        *) 0x0346u)
+  /* Timer0_A5 Capture/Compare Control 2 */
+#define p_TA0CCTL2              ((TA0CCTLx_t        *) 0x0346u)
 #define TA0CCTL2                p_TA0CCTL2->reg
 #define TA0CCTL2_bits           p_TA0CCTL2->bits
 
-
-typedef volatile union
-{
-    uint16_t reg;   /* Timer0_A5 Capture/Compare Control 3 */
-    struct
-    {
-        uint16_t CCIFG            : 1; /* Capture/compare interrupt flag */
-        uint16_t COV              : 1; /* Capture/compare overflow flag */
-        uint16_t OUT              : 1; /* PWM Output signal if output mode 0 */
-        uint16_t CCI              : 1; /* Capture input signal (read) */
-        uint16_t CCIE             : 1; /* Capture/compare interrupt enable */
-        uint16_t OUTMODx          : 3; /* Output mode bits */
-        uint16_t CAP              : 1; /* Capture mode: 1 /Compare mode : 0 */
-        uint16_t                  : 1;
-        uint16_t SCCI             : 1; /* Latched capture signal (read) */
-        uint16_t SCS              : 1; /* Capture sychronize */
-        uint16_t CCISx            : 2; /* Capture input select bits */
-        uint16_t CMx              : 2; /* Capture mode bits */
-    } bits;
-} TA0CCTL3_t;
-
-#define p_TA0CCTL3              ((TA0CCTL3_t        *) 0x0348u)
+  /* Timer0_A5 Capture/Compare Control 3 */
+#define p_TA0CCTL3              ((TA0CCTLx_t        *) 0x0348u)
 #define TA0CCTL3                p_TA0CCTL3->reg
 #define TA0CCTL3_bits           p_TA0CCTL3->bits
 
-
-typedef volatile union
-{
-    uint16_t reg;   /* Timer0_A5 Capture/Compare Control 4 */
-    struct
-    {
-        uint16_t CCIFG            : 1; /* Capture/compare interrupt flag */
-        uint16_t COV              : 1; /* Capture/compare overflow flag */
-        uint16_t OUT              : 1; /* PWM Output signal if output mode 0 */
-        uint16_t CCI              : 1; /* Capture input signal (read) */
-        uint16_t CCIE             : 1; /* Capture/compare interrupt enable */
-        uint16_t OUTMODx          : 3; /* Output mode bits */
-        uint16_t CAP              : 1; /* Capture mode: 1 /Compare mode : 0 */
-        uint16_t                  : 1;
-        uint16_t SCCI             : 1; /* Latched capture signal (read) */
-        uint16_t SCS              : 1; /* Capture sychronize */
-        uint16_t CCISx            : 2; /* Capture input select bits */
-        uint16_t CMx              : 2; /* Capture mode bits */
-    } bits;
-} TA0CCTL4_t;
-
-#define p_TA0CCTL4              ((TA0CCTL4_t        *) 0x034Au)
+  /* Timer0_A5 Capture/Compare Control 4 */
+#define p_TA0CCTL4              ((TA0CCTLx_t        *) 0x034Au)
 #define TA0CCTL4                p_TA0CCTL4->reg
 #define TA0CCTL4_bits           p_TA0CCTL4->bits
 
 
-  /* Timer0_A5 */
+
+  /* Timer0_A5 Counter Register */
 typedef volatile uint16_t TA0R_t;
 #define p_TA0R                  ((TA0R_t        *) 0x0350u)
 #define TA0R                    *p_TA0R
+
+
 
   /* Timer0_A5 Capture/Compare 0 */
 typedef volatile uint16_t TA0CCR0_t;
@@ -3215,25 +3138,27 @@ typedef volatile uint16_t TA0CCR4_t;
 #define p_TA0CCR4               ((TA0CCR4_t     *) 0x035Au)
 #define TA0CCR4                 *p_TA0CCR4
 
-  /* Timer0_A5 Interrupt Vector Word */
-typedef volatile uint16_t TA0IV_t;
-#define p_TA0IV                 ((TA0IV_t       *) 0x036Eu)
-#define TA0IV                   *p_TA0IV
 
 
 typedef volatile union
 {
-    uint16_t reg;   /* Timer0_A5 Expansion Register 0 */
+    uint16_t reg;   /* Timer0_A5 Divider Expansion Register 0 */
     struct
     {
         uint16_t TAIDEXx          : 3; /* Timer A Input divider expansion Bits */
     } bits;
 } TA0EX0_t;
 
-#define p_TA0EX0              ((TA0EX0_t        *) 0x0360u)
-#define TA0EX0                p_TA0EX0->reg
-#define TA0EX0_bits           p_TA0EX0->bits
+/* Timer0_A5 Divider Expansion Word */
+#define p_TA0EX0                ((TA0EX0_t      *) 0x0360u)
+#define TA0EX0                  *p_TA0EX0
 
+
+
+  /* Timer0_A5 Interrupt Vector Word */
+typedef volatile uint16_t TA0IV_t;
+#define p_TA0IV                 ((TA0IV_t       *) 0x036Eu)
+#define TA0IV                   *p_TA0IV
 
 
 
@@ -3267,7 +3192,7 @@ typedef volatile union
 
 typedef volatile union
 {
-    uint16_t reg;   /* Timer1_A3 Capture/Compare Control 0 */
+    uint16_t reg;   /* Timer1_A3 Capture/Compare Control */
     struct
     {
         uint16_t CCIFG            : 1; /* Capture/compare interrupt flag */
@@ -3283,67 +3208,28 @@ typedef volatile union
         uint16_t CCISx            : 2; /* Capture input select bits */
         uint16_t CMx              : 2; /* Capture mode bits */
     } bits;
-} TA1CCTL0_t;
+} TA1CCTLx_t;
 
-#define p_TA1CCTL0              ((TA1CCTL0_t        *) 0x0382u)
+#define p_TA1CCTL0              ((TA1CCTLx_t        *) 0x0382u)
 #define TA1CCTL0                p_TA1CCTL0->reg
 #define TA1CCTL0_bits           p_TA1CCTL0->bits
 
-
-typedef volatile union
-{
-    uint16_t reg;   /* Timer1_A3 Capture/Compare Control 1 */
-    struct
-    {
-        uint16_t CCIFG            : 1; /* Capture/compare interrupt flag */
-        uint16_t COV              : 1; /* Capture/compare overflow flag */
-        uint16_t OUT              : 1; /* PWM Output signal if output mode 0 */
-        uint16_t CCI              : 1; /* Capture input signal (read) */
-        uint16_t CCIE             : 1; /* Capture/compare interrupt enable */
-        uint16_t OUTMODx          : 3; /* Output mode bits */
-        uint16_t CAP              : 1; /* Capture mode: 1 /Compare mode : 0 */
-        uint16_t                  : 1;
-        uint16_t SCCI             : 1; /* Latched capture signal (read) */
-        uint16_t SCS              : 1; /* Capture sychronize */
-        uint16_t CCISx            : 2; /* Capture input select bits */
-        uint16_t CMx              : 2; /* Capture mode bits */
-    } bits;
-} TA1CCTL1_t;
-
-#define p_TA1CCTL1              ((TA1CCTL1_t        *) 0x0384u)
+#define p_TA1CCTL1              ((TA1CCTLx_t        *) 0x0384u)
 #define TA1CCTL1                p_TA1CCTL1->reg
 #define TA1CCTL1_bits           p_TA1CCTL1->bits
 
-
-typedef volatile union
-{
-    uint16_t reg;   /* Timer1_A3 Capture/Compare Control 2 */
-    struct
-    {
-        uint16_t CCIFG            : 1; /* Capture/compare interrupt flag */
-        uint16_t COV              : 1; /* Capture/compare overflow flag */
-        uint16_t OUT              : 1; /* PWM Output signal if output mode 0 */
-        uint16_t CCI              : 1; /* Capture input signal (read) */
-        uint16_t CCIE             : 1; /* Capture/compare interrupt enable */
-        uint16_t OUTMODx          : 3; /* Output mode bits */
-        uint16_t CAP              : 1; /* Capture mode: 1 /Compare mode : 0 */
-        uint16_t                  : 1;
-        uint16_t SCCI             : 1; /* Latched capture signal (read) */
-        uint16_t SCS              : 1; /* Capture sychronize */
-        uint16_t CCISx            : 2; /* Capture input select bits */
-        uint16_t CMx              : 2; /* Capture mode bits */
-    } bits;
-} TA1CCTL2_t;
-
-#define p_TA1CCTL2              ((TA1CCTL2_t        *) 0x0386u)
+#define p_TA1CCTL2              ((TA1CCTLx_t        *) 0x0386u)
 #define TA1CCTL2                p_TA1CCTL2->reg
 #define TA1CCTL2_bits           p_TA1CCTL2->bits
+
 
 
   /* Timer1_A3 */
 typedef volatile uint16_t TA1R_t;
 #define p_TA1R                  ((TA1R_t        *) 0x0390u)
 #define TA1R                    *p_TA1R
+
+
 
   /* Timer1_A3 Capture/Compare 0 */
 typedef volatile uint16_t TA1CCR0_t;
@@ -3360,14 +3246,11 @@ typedef volatile uint16_t TA1CCR2_t;
 #define p_TA1CCR2               ((TA1CCR2_t     *) 0x0396u)
 #define TA1CCR2                 *p_TA1CCR2
 
-  /* Timer1_A3 Interrupt Vector Word */
-typedef volatile uint16_t TA1IV_t;
-#define p_TA1IV                 ((TA1IV_t       *) 0x03AEu)
-#define TA1IV                   *p_TA1IV
+
 
 typedef volatile union
 {
-    uint16_t reg;   /* Timer1_A3 Expansion Register 0 */
+    uint16_t reg;   /* Timer1_A3 Divider Expansion Register 0 */
     struct
     {
         uint16_t TAIDEXx          : 3; /* Timer A Input divider expansion Bits */
@@ -3378,6 +3261,12 @@ typedef volatile union
 #define TA1EX0                  p_TA1EX0->reg
 #define TA1EX0_bits             p_TA1EX0->bits
 
+
+
+/* Timer1_A3 Interrupt Vector Word */
+typedef volatile uint16_t TA1IV_t;
+#define p_TA1IV                 ((TA1IV_t       *) 0x03AEu)
+#define TA1IV                   *p_TA1IV
 
 
 
@@ -3410,7 +3299,7 @@ typedef volatile union
 
 typedef volatile union
 {
-    uint16_t reg;   /* Timer2_A3 Capture/Compare Control 0 */
+    uint16_t reg;   /* Timer2_A3 Capture/Compare Control */
     struct
     {
         uint16_t CCIFG            : 1; /* Capture/compare interrupt flag */
@@ -3426,67 +3315,28 @@ typedef volatile union
         uint16_t CCISx            : 2; /* Capture input select bits */
         uint16_t CMx              : 2; /* Capture mode bits */
     } bits;
-} TA2CCTL0_t;
+} TA2CCTLx_t;
 
-#define p_TA2CCTL0              ((TA2CCTL0_t        *) 0x0402u)
+#define p_TA2CCTL0              ((TA2CCTLx_t        *) 0x0402u)
 #define TA2CCTL0                p_TA2CCTL0->reg
 #define TA2CCTL0_bits           p_TA2CCTL0->bits
 
-
-typedef volatile union
-{
-    uint16_t reg;   /* Timer2_A3 Capture/Compare Control 1 */
-    struct
-    {
-        uint16_t CCIFG            : 1; /* Capture/compare interrupt flag */
-        uint16_t COV              : 1; /* Capture/compare overflow flag */
-        uint16_t OUT              : 1; /* PWM Output signal if output mode 0 */
-        uint16_t CCI              : 1; /* Capture input signal (read) */
-        uint16_t CCIE             : 1; /* Capture/compare interrupt enable */
-        uint16_t OUTMODx          : 3; /* Output mode bits */
-        uint16_t CAP              : 1; /* Capture mode: 1 /Compare mode : 0 */
-        uint16_t                  : 1;
-        uint16_t SCCI             : 1; /* Latched capture signal (read) */
-        uint16_t SCS              : 1; /* Capture sychronize */
-        uint16_t CCISx            : 2; /* Capture input select bits */
-        uint16_t CMx              : 2; /* Capture mode bits */
-    } bits;
-} TA2CCTL1_t;
-
-#define p_TA2CCTL1              ((TA2CCTL1_t        *) 0x0404u)
+#define p_TA2CCTL1              ((TA2CCTLx_t        *) 0x0404u)
 #define TA2CCTL1                p_TA2CCTL1->reg
 #define TA2CCTL1_bits           p_TA2CCTL1->bits
 
-
-typedef volatile union
-{
-    uint16_t reg;   /* Timer2_A3 Capture/Compare Control 2 */
-    struct
-    {
-        uint16_t CCIFG           : 1; /* Capture/compare interrupt flag */
-        uint16_t COV             : 1; /* Capture/compare overflow flag */
-        uint16_t OUT             : 1; /* PWM Output signal if output mode 0 */
-        uint16_t CCI             : 1; /* Capture input signal (read) */
-        uint16_t CCIE            : 1; /* Capture/compare interrupt enable */
-        uint16_t OUTMODx         : 3; /* Output mode bits */
-        uint16_t CAP             : 1; /* Capture mode: 1 /Compare mode : 0 */
-        uint16_t                : 1;
-        uint16_t SCCI            : 1; /* Latched capture signal (read) */
-        uint16_t SCS             : 1; /* Capture sychronize */
-        uint16_t CCISx           : 2; /* Capture input select bits */
-        uint16_t CMx             : 2; /* Capture mode bits */
-    } bits;
-} TA2CCTL2_t;
-
-#define p_TA2CCTL2              ((TA2CCTL2_t        *) 0x0406u)
+#define p_TA2CCTL2              ((TA2CCTLx_t        *) 0x0406u)
 #define TA2CCTL2                p_TA2CCTL2->reg
 #define TA2CCTL2_bits           p_TA2CCTL2->bits
 
 
-  /* Timer2_A3 */
+
+  /* Timer2_A3 Counter Register */
 typedef volatile uint16_t TA2R_t;
 #define p_TA2R                  ((TA2R_t        *) 0x0410u)
 #define TA2R                    *p_TA2R
+
+
 
   /* Timer2_A3 Capture/Compare 0 */
 typedef volatile uint16_t TA2CCR0_t;
@@ -3503,10 +3353,6 @@ typedef volatile uint16_t TA2CCR2_t;
 #define p_TA2CCR2               ((TA2CCR2_t     *) 0x0416u)
 #define TA2CCR2                 *p_TA2CCR2
 
-  /* Timer2_A3 Interrupt Vector Word */
-typedef volatile uint16_t TA2IV_t;
-#define p_TA2IV                 ((TA2IV_t       *) 0x042Eu)
-#define TA2IV                   *p_TA2IV
 
 
 typedef volatile union
@@ -3524,6 +3370,10 @@ typedef volatile union
 
 
 
+/* Timer2_A3 Interrupt Vector Word */
+typedef volatile uint16_t TA2IV_t;
+#define p_TA2IV                 ((TA2IV_t       *) 0x042Eu)
+#define TA2IV                   *p_TA2IV
 
 
 
@@ -3561,7 +3411,7 @@ typedef volatile union
 
 typedef volatile union
 {
-    uint16_t reg;   /* Timer0_B7 Capture/Compare Control 0 */
+    uint16_t reg;   /* Timer0_B7 Capture/Compare Control */
     struct
     {
         uint16_t CCIFG            : 1; /* Capture/compare interrupt flag */
@@ -3572,165 +3422,48 @@ typedef volatile union
         uint16_t OUTMODx          : 3; /* Output mode bits */
         uint16_t CAP              : 1; /* Capture mode: 1 /Compare mode : 0 */
         uint16_t CLLDx            : 2; /* Compare latch load source bits */
-        uint16_t SCS              : 1; /* Capture sychronize */
+        uint16_t SCS              : 1; /* Capture synchronize */
         uint16_t CCISx            : 2; /* Capture input select bits */
         uint16_t CMx              : 2; /* Capture mode bits */
     } bits;
-} TB0CCTL0_t;
+} TB0CCTLx_t;
 
-#define p_TB0CCTL0              ((TB0CCTL0_t        *) 0x03C2u)
+#define p_TB0CCTL0              ((TB0CCTLx_t        *) 0x03C2u)
 #define TB0CCTL0                p_TB0CCTL0->reg
 #define TB0CCTL0_bits           p_TB0CCTL0->bits
 
-
-typedef volatile union
-{
-    uint16_t reg;   /* Timer0_B7 Capture/Compare Control 1 */
-    struct
-    {
-        uint16_t CCIFG            : 1; /* Capture/compare interrupt flag */
-        uint16_t COV              : 1; /* Capture/compare overflow flag */
-        uint16_t OUT              : 1; /* PWM Output signal if output mode 0 */
-        uint16_t CCI              : 1; /* Capture input signal (read) */
-        uint16_t CCIE             : 1; /* Capture/compare interrupt enable */
-        uint16_t OUTMODx          : 3; /* Output mode bits */
-        uint16_t CAP              : 1; /* Capture mode: 1 /Compare mode : 0 */
-        uint16_t CLLDx            : 2; /* Compare latch load source bits */
-        uint16_t SCS              : 1; /* Capture sychronize */
-        uint16_t CCISx            : 2; /* Capture input select bits */
-        uint16_t CMx              : 2; /* Capture mode bits */
-    } bits;
-} TB0CCTL1_t;
-
-#define p_TB0CCTL1              ((TB0CCTL1_t        *) 0x03C4u)
+#define p_TB0CCTL1              ((TB0CCTLx_t        *) 0x03C4u)
 #define TB0CCTL1                p_TB0CCTL1->reg
 #define TB0CCTL1_bits           p_TB0CCTL1->bits
 
-
-typedef volatile union
-{
-    uint16_t reg;   /* Timer0_B7 Capture/Compare Control 2 */
-    struct
-    {
-        uint16_t CCIFG            : 1; /* Capture/compare interrupt flag */
-        uint16_t COV              : 1; /* Capture/compare overflow flag */
-        uint16_t OUT              : 1; /* PWM Output signal if output mode 0 */
-        uint16_t CCI              : 1; /* Capture input signal (read) */
-        uint16_t CCIE             : 1; /* Capture/compare interrupt enable */
-        uint16_t OUTMODx          : 3; /* Output mode bits */
-        uint16_t CAP              : 1; /* Capture mode: 1 /Compare mode : 0 */
-        uint16_t CLLDx            : 2; /* Compare latch load source bits */
-        uint16_t SCS              : 1; /* Capture sychronize */
-        uint16_t CCISx            : 2; /* Capture input select bits */
-        uint16_t CMx              : 2; /* Capture mode bits */
-    } bits;
-} TB0CCTL2_t;
-
-#define p_TB0CCTL2              ((TB0CCTL2_t        *) 0x03C6u)
+#define p_TB0CCTL2              ((TB0CCTLx_t        *) 0x03C6u)
 #define TB0CCTL2                p_TB0CCTL2->reg
 #define TB0CCTL2_bits           p_TB0CCTL2->bits
 
-
-typedef volatile union
-{
-    uint16_t reg;   /* Timer0_B7 Capture/Compare Control 3 */
-    struct
-    {
-        uint16_t CCIFG           : 1; /* Capture/compare interrupt flag */
-        uint16_t COV             : 1; /* Capture/compare overflow flag */
-        uint16_t OUT             : 1; /* PWM Output signal if output mode 0 */
-        uint16_t CCI             : 1; /* Capture input signal (read) */
-        uint16_t CCIE            : 1; /* Capture/compare interrupt enable */
-        uint16_t OUTMODx         : 3; /* Output mode bits */
-        uint16_t CAP             : 1; /* Capture mode: 1 /Compare mode : 0 */
-        uint16_t CLLDx           : 1; /* Compare latch load source bits */
-        uint16_t SCS             : 1; /* Capture sychronize */
-        uint16_t CCISx           : 2; /* Capture input select bits */
-        uint16_t CMx             : 2; /* Capture mode bits */
-    } bits;
-} TB0CCTL3_t;
-
-#define p_TB0CCTL3              ((TB0CCTL3_t        *) 0x03C8u)
+#define p_TB0CCTL3              ((TB0CCTLx_t        *) 0x03C8u)
 #define TB0CCTL3                p_TB0CCTL3->reg
 #define TB0CCTL3_bits           p_TB0CCTL3->bits
 
-
-typedef volatile union
-{
-    uint16_t reg;   /* Timer0_B7 Capture/Compare Control 4 */
-    struct
-    {
-        uint16_t CCIFG           : 1; /* Capture/compare interrupt flag */
-        uint16_t COV             : 1; /* Capture/compare overflow flag */
-        uint16_t OUT             : 1; /* PWM Output signal if output mode 0 */
-        uint16_t CCI             : 1; /* Capture input signal (read) */
-        uint16_t CCIE            : 1; /* Capture/compare interrupt enable */
-        uint16_t OUTMODx         : 3; /* Output mode bits */
-        uint16_t CAP             : 1; /* Capture mode: 1 /Compare mode : 0 */
-        uint16_t CLLDx           : 2; /* Compare latch load source bits */
-        uint16_t SCS             : 1; /* Capture sychronize */
-        uint16_t CCISx           : 2; /* Capture input select bits */
-        uint16_t CMx             : 2; /* Capture mode bits */
-    } bits;
-} TB0CCTL4_t;
-
-#define p_TB0CCTL4              ((TB0CCTL4_t        *) 0x03CAu)
+#define p_TB0CCTL4              ((TB0CCTLx_t        *) 0x03CAu)
 #define TB0CCTL4                p_TB0CCTL4->reg
 #define TB0CCTL4_bits           p_TB0CCTL4->bits
 
-
-typedef volatile union
-{
-    uint16_t reg;   /* Timer0_B7 Capture/Compare Control 5 */
-    struct
-    {
-        uint16_t CCIFG            : 1; /* Capture/compare interrupt flag */
-        uint16_t COV              : 1; /* Capture/compare overflow flag */
-        uint16_t OUT              : 1; /* PWM Output signal if output mode 0 */
-        uint16_t CCI              : 1; /* Capture input signal (read) */
-        uint16_t CCIE             : 1; /* Capture/compare interrupt enable */
-        uint16_t OUTMODx          : 3; /* Output mode bits */
-        uint16_t CAP              : 1; /* Capture mode: 1 /Compare mode : 0 */
-        uint16_t CLLDx            : 2; /* Compare latch load source bits */
-        uint16_t SCS              : 1; /* Capture sychronize */
-        uint16_t CCISx            : 2; /* Capture input select bits */
-        uint16_t CMx              : 2; /* Capture mode bits */
-    } bits;
-} TB0CCTL5_t;
-
-#define p_TB0CCTL5              ((TB0CCTL5_t        *) 0x03CCu)
+#define p_TB0CCTL5              ((TB0CCTLx_t        *) 0x03CCu)
 #define TB0CCTL5                p_TB0CCTL5->reg
 #define TB0CCTL5_bits           p_TB0CCTL5->bits
 
-
-typedef volatile union
-{
-    uint16_t reg;   /* Timer0_B7 Capture/Compare Control 6 */
-    struct
-    {
-        uint16_t CCIFG            : 1; /* Capture/compare interrupt flag */
-        uint16_t COV              : 1; /* Capture/compare overflow flag */
-        uint16_t OUT              : 1; /* PWM Output signal if output mode 0 */
-        uint16_t CCI              : 1; /* Capture input signal (read) */
-        uint16_t CCIE             : 1; /* Capture/compare interrupt enable */
-        uint16_t OUTMODx          : 3; /* Output mode bits */
-        uint16_t CAP              : 1; /* Capture mode: 1 /Compare mode : 0 */
-        uint16_t CLLDx            : 2; /* Compare latch load source bits */
-        uint16_t SCS              : 1; /* Capture sychronize */
-        uint16_t CCISx            : 2; /* Capture input select bits */
-        uint16_t CMx              : 2; /* Capture mode bits */
-    } bits;
-} TB0CCTL6_t;
-
-#define p_TB0CCTL6              ((TB0CCTL6_t        *) 0x03CEu)
+#define p_TB0CCTL6              ((TB0CCTLx_t        *) 0x03CEu)
 #define TB0CCTL6                p_TB0CCTL6->reg
 #define TB0CCTL6_bits           p_TB0CCTL6->bits
 
 
-  /* Timer0_B7 */
+
+  /* Timer0_B7 Counter Register */
 typedef volatile uint16_t TB0R_t;
 #define p_TB0R                  ((TB0R_t        *) 0x03D0u)
 #define TB0R                    *p_TB0R
+
+
 
   /* Timer0_B7 Capture/Compare 0 */
 typedef volatile uint16_t TB0CCR0_t;
@@ -3767,10 +3500,6 @@ typedef volatile uint16_t TB0CCR6_t;
 #define p_TB0CCR6               ((TB0CCR6_t     *) 0x03DEu)
 #define TB0CCR6                 *p_TB0CCR6
 
-/* Timer0_B7 Interrupt Vector Word */
-typedef volatile uint16_t TB0IV_t;
-#define p_TB0IV                 ((TB0IV_t       *) 0x03EEu)
-#define TB0IV                   *p_TB0IV
 
 
 typedef volatile union
@@ -3786,6 +3515,12 @@ typedef volatile union
 #define TB0EX0                  p_TB0EX0->reg
 #define TB0EX0_bits             p_TB0EX0->bits
 
+
+
+/* Timer0_B7 Interrupt Vector Word */
+typedef volatile uint16_t TB0IV_t;
+#define p_TB0IV                 ((TB0IV_t       *) 0x03EEu)
+#define TB0IV                   *p_TB0IV
 
 
 
@@ -4405,8 +4140,8 @@ typedef volatile union
             uint8_t               : 1; /* UCSYNC */
             uint8_t               : 2; /* UCMODEx */
             uint8_t               : 1; /* UCMST */
-            uint8_t               : 1; /* UC7BIT */
-            uint8_t               : 1; /* UCMSB */
+            uint8_t UC7BIT        : 1; /* UC7BIT */
+            uint8_t UCMSB         : 1; /* UCMSB */
             uint8_t UCCKPL        : 1; /* Clock polarity select: 0:inactive low, 1:inactive high */
             uint8_t UCCKPH        : 1; /* Clock phase select: 0:data changed on UCLK edge
                                                                     1:data captured on UCLK edge. */

@@ -133,11 +133,6 @@ void initialize(void)
         MSP430F5529LP_TIMERA2_Initialize();
         MSP430F5529LP_I2C_Initialize();
 
-        // The I2C address of the displays at the time of writing this example
-        // were almost all 0x27. This default address is provided in the .h
-        // file as LCD_I2C_ADDR.
-        LCD_Initialize(LCD_I2C_ADDR, BACKLIGHT_ON);
-
 
         // ###################################################################
         // Add program specific initialization here
@@ -155,6 +150,16 @@ void initialize(void)
         // Last step before exiting, enable global interrupts
 
         __enable_interrupt();
+
+
+        // ###################################################################
+        // Add initialization here that requires interrupts
+
+        // The I2C address of the displays at the time of writing this example
+        // were almost all 0x27. This default address is provided in the .h
+        // file as LCD_I2C_ADDR.
+        LCD_Initialize(LCD_I2C_ADDR, BACKLIGHT_ON);
+
 }
 
 

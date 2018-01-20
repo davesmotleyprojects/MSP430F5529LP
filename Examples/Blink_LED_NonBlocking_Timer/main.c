@@ -8,7 +8,7 @@
  * a copy of this software and associated documentation files (the
  * 'Software'), to deal in the Software without restriction, including
  * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
+ * distribute, sub-license, and/or sell copies of the Software, and to
  * permit persons to whom the Software is furnished to do so, subject to
  * the following conditions:
  *
@@ -30,9 +30,10 @@
  * Elapse functions in the TIMER_A2 peripheral files. This demonstrates how to
  * use a more versatile delay function than the basic "delay".
  *
- * Version 1.0
+ * Version 2.0
  *
  * Rev. 1.0, Initial Release
+ * Rev. 2.0, Added asm("NOP"); before EINT.
  *
  *                                                                            */
 /* ===========================================================================*/
@@ -56,11 +57,10 @@
    PRIVATE DEFINITIONS (static const)
 ******************************************************************************/
 
-typedef enum {
-    LED_STATE_1,
-    LED_STATE_2
-} LED_States_t;
-
+    typedef enum {
+        LED_STATE_1,
+        LED_STATE_2
+    } LED_States_t;
 
 
 /******************************************************************************
@@ -164,6 +164,7 @@ void initialize(void)
     // ###################################################################
     // Last step before exiting, enable global interrupts
 
+    asm("NOP");
     __enable_interrupt();
 }
 

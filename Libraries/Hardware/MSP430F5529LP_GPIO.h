@@ -85,6 +85,8 @@
     PUBLIC FUNCTION PROTOTYPES
 ******************************************************************************/
 
+    void MSP430F5529LP_GPIO_Initialize(void);
+
     void pinDirection(uint8_t pin, pinDirection_enum pinDir);
 
     void pinResEnable(uint8_t pin, pinEnable_enum rEnable);

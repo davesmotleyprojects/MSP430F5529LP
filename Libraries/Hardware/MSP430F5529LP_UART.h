@@ -53,13 +53,15 @@
 
     extern void MSP430F5529LP_UART_Initialize(void);
 
+    extern uint8_t UartBusy(void);
+
     extern uint8_t BytesReady(void);
 
     extern uint8_t GetRxByte(void);
 
     extern void PutTxByte(uint8_t byte);
 
-    extern void SendSerialMsg(char* pMsg, int size);
+    extern void SendSerialMsg(char* pMsg, uint16_t size);
 
 
 /******************************************************************************

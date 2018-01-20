@@ -58,7 +58,7 @@
     PRIVATE DEFINITIONS (static const)
 ******************************************************************************/
 
-    #define  MAX_UART_BUFFER_LEN   80
+    #define  MAX_UART_BUFFER_LEN   160
 
 
 /******************************************************************************
@@ -126,12 +126,19 @@ void MSP430F5529LP_UART_Initialize(void)
    UCA0CTL1_bits.UCTXBRK = 0u;      // next frame is not break
 
    UCA0MCTL_bits.UCOS16 = 1u;       // 16-bit oversampling enabled
+
+   // 57600 BAUD
    UCA0MCTL_bits.UCBRFx = 1u;       // first stage modulator value
    UCA0MCTL_bits.UCBRSx = 0u;       // second stage modulator value
-
-   // Set the uart baud rate prescaler to 26 = 0x001A.
    UCA0BR1 = 0x00u;
    UCA0BR0 = 0x1Au;
+
+   // 9600 BAUD
+   //UCA0MCTL_bits.UCBRFx = 4u;       // first stage modulator value
+   //UCA0MCTL_bits.UCBRSx = 0u;       // second stage modulator value
+   //UCA0BR1 = 0x00u;
+   //UCA0BR0 = 0x19u;
+
 
    for (x=0; x<MAX_UART_BUFFER_LEN; x++)
    {
@@ -155,10 +162,22 @@ void MSP430F5529LP_UART_Initialize(void)
 
    UCA0CTL1_bits.UCSWRST = 0u;      // enable the UART
 
-   // enable recieve interrupt - this must be done after UART enable!
+   // enable receive interrupt - this must be done after UART enable!
    UCA0IE_bits.UCRXIE = 1u;
 }
 
+
+/******************************************************************************
+   Subroutine:    UartBusy
+   Description:
+   Inputs:
+   Outputs:
+
+******************************************************************************/
+uint8_t UartBusy(void)
+{
+    return (s_UartTxWriteIndex_u16 != s_UartTxReadIndex_u16);
+}
 
 /******************************************************************************
    Subroutine:    BytesReady
@@ -184,10 +203,10 @@ uint8_t GetRxByte(void)
 {
     static uint8_t retVal;
 
-    // get the revieved byte from the RxBuffer, and increment read index
+    // get the received byte from the RxBuffer, and increment read index
     retVal = s_UartRxMsgBuffer_u8[s_UartRxReadIndex_u16++];
 
-    // rollover index if we have reached end of buffer
+    // roll-over index if we have reached end of buffer
     if (MAX_UART_BUFFER_LEN <= s_UartRxReadIndex_u16)
     {
         s_UartRxReadIndex_u16 = 0u;
@@ -209,7 +228,7 @@ void PutTxByte(uint8_t byte)
     // put the byte to transmit into the TxBuffer, and increment write index
     s_UartTxMsgBuffer_u8[s_UartTxWriteIndex_u16++] = byte;
 
-    // rollover index if we have reached end of buffer
+    // roll-over index if we have reached end of buffer
     if (MAX_UART_BUFFER_LEN <= s_UartTxWriteIndex_u16)
     {
         s_UartTxWriteIndex_u16 = 0u;
@@ -227,15 +246,17 @@ void PutTxByte(uint8_t byte)
    Outputs:
 
 ******************************************************************************/
-void SendSerialMsg(char* pMsg, int size)
+void SendSerialMsg(char* pMsg, uint16_t size)
 {
     int x;
+    static uint16_t lcl_size;
+    lcl_size=size;
 
     // if there is currently a message in the UART Tx Message Buffer that is
     // being processed, wait for that to complete first.
     while (s_UartTxWriteIndex_u16 != s_UartTxReadIndex_u16) {}
 
-    for (x=0; x<size; x++)
+    for (x=0; x<lcl_size; x++)
     {
         PutTxByte(pMsg[x]);
     }
@@ -249,7 +270,8 @@ void SendSerialMsg(char* pMsg, int size)
    Outputs:
 
 ******************************************************************************/
-void __attribute__((__interrupt__(USCI_A0_VECTOR))) USCI_A0_ISR(void)
+__attribute__((interrupt(USCI_A0_VECTOR)))
+void USCI_A0_ISR(void)
 {
     static uint8_t UCA0IV_value;
 
@@ -261,7 +283,7 @@ void __attribute__((__interrupt__(USCI_A0_VECTOR))) USCI_A0_ISR(void)
         // put the received byte into the Rx buffer
         s_UartRxMsgBuffer_u8[s_UartRxWriteIndex_u16++] = UCA0RXBUF;
 
-        // rollover index if we have reached end of buffer
+        // roll-over index if we have reached end of buffer
         if (MAX_UART_BUFFER_LEN <= s_UartRxWriteIndex_u16)
         {
             s_UartRxWriteIndex_u16 = 0u;
@@ -274,7 +296,7 @@ void __attribute__((__interrupt__(USCI_A0_VECTOR))) USCI_A0_ISR(void)
         // put the next byte to send into the Tx buffer
         UCA0TXBUF = s_UartTxMsgBuffer_u8[s_UartTxReadIndex_u16++];
 
-        // rollover index if we have reached end of buffer
+        // roll-over index if we have reached end of buffer
         if (MAX_UART_BUFFER_LEN <= s_UartTxReadIndex_u16)
         {
             s_UartTxReadIndex_u16 = 0u;

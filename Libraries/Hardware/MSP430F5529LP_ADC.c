@@ -8,7 +8,7 @@
  * a copy of this software and associated documentation files (the
  * 'Software'), to deal in the Software without restriction, including
  * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
+ * distribute, sub-license, and/or sell copies of the Software, and to
  * permit persons to whom the Software is furnished to do so, subject to
  * the following conditions:
  *
@@ -306,7 +306,8 @@ void ADC_RegisterConversionCallback(ADC_Callback callback)
     Outputs:        None
 
 ******************************************************************************/
-void __attribute__((__interrupt__(ADC12_VECTOR))) ADC_ISR(void)
+__attribute__((interrupt(ADC12_VECTOR)))
+void ADC_ISR(void)
 {
     static uint16_t ADC12IV_value;
 

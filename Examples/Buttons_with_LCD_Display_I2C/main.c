@@ -30,10 +30,9 @@
  * demonstration for registering a button with the button service, and toggling
  * the LED when the callback indicates that a button event has occurred.
  *
- * Version 2.0
+ * Version 1.0
  *
  * Rev. 1.0, Initial Release
- * Rev. 2.0, Added asm("NOP"); before EINT.
  *
  *                                                                            */
 /* ===========================================================================*/
@@ -43,8 +42,9 @@
 #include "MSP430F5529LP_TIMERA2.h"
 #include "MSP430F5529LP_GPIO.h"
 #include "MSP430F5529LP_BUTTONS.h"
+#include "MSP430F5529LP_I2C.h"
 
-#include "LCD_HD44780_4BIT.h"
+#include "LCD_HD44780_I2C.h"
 
 
 /******************************************************************************
@@ -102,6 +102,8 @@ int main( void )
     // perform initialization
     initialize();
 
+    Update_LCD_Display();
+
     for (;;)    // Loop forever...
     {
         if (s_LcdUpdateFlag)
@@ -117,7 +119,7 @@ int main( void )
 
 /******************************************************************************
     Subroutine:     initialize
-    Description:    Performs the initalization of the main program. This also
+    Description:    Performs the initialization of the main program. This also
                     initializes the MSP430F5529LP operating environment.
     Inputs:         None
     Outputs:        None
@@ -131,17 +133,7 @@ void initialize(void)
         MSP430F5529LP_CLOCK_Initialize();
         MSP430F5529LP_TIMERA2_Initialize();
         MSP430F5529LP_BUTTONS_Initialize(8, 3, 100, 500);
-
-        /* Initialize the 20x4 LCD display
-         * LcdPin_RS =  57;  // P7.4
-         * LcdPin_RW =  35;  // P2.6
-         * LcdPin_EN =  16;  // P8.1
-         * LcdPin_D4 =  44;  // P3.7
-         * LcdPin_D5 =  17;  // P8.2
-         * LcdPin_D6 =  27;  // P1.6
-         * LcdPin_D7 =  36;  // P2.7
-         */
-        LCD_Initialize(57, 35, 16, 44, 17, 27, 36);
+        MSP430F5529LP_I2C_Initialize();
 
 
         // ###################################################################
@@ -162,14 +154,21 @@ void initialize(void)
         Set_Button_Callback(BUTTON1, MSP430F5529LP_BUTTON1, 0, Button1_Callback);
         Set_Button_Callback(BUTTON2, MSP430F5529LP_BUTTON2, 0, Button2_Callback);
 
-        Update_LCD_Display();
-
 
         // ###################################################################
         // Last step before exiting, enable global interrupts
 
         asm("NOP");
         __enable_interrupt();
+
+
+        // ###################################################################
+        // Add initialization here that requires interrupts
+
+        // The I2C address of the displays at the time of writing this example
+        // were almost all 0x27. This default address is provided in the .h
+        // file as LCD_I2C_ADDR.
+        LCD_Initialize(LCD_I2C_ADDR, BACKLIGHT_ON);
 }
 
 

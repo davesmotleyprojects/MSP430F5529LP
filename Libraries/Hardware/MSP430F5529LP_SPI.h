@@ -8,7 +8,7 @@
  * a copy of this software and associated documentation files (the
  * 'Software'), to deal in the Software without restriction, including
  * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
+ * distribute, sub-license, and/or sell copies of the Software, and to
  * permit persons to whom the Software is furnished to do so, subject to
  * the following conditions:
  *
@@ -25,10 +25,10 @@
 
 /* ===========================================================================*/
 /*
- * FileName:      MSP430F5529LP_I2C.h
+ * FileName:      MSP430F5529LP_SPI.h
  *
  * This file provides functions for the Universal Serial Communications
- * Interface (UCB1) in the I2C Master mode for the Texas Instruments
+ * Interface (UCA1) in the SPI Master mode for the Texas Instruments
  * MSP430F5529 Launchpad development board.
  *
  * Version 1.0
@@ -38,8 +38,8 @@
  *                                                                            */
 /* ===========================================================================*/
 
-#ifndef __MSP430F5529LP_I2C_H__
-#define __MSP430F5529LP_I2C_H__
+#ifndef __MSP430F5529LP_SPI_H__
+#define __MSP430F5529LP_SPI_H__
 
 
 
@@ -47,14 +47,11 @@
     PUBLIC DEFINITIONS
 ******************************************************************************/
    
-   typedef enum I2C_CompletionCode
+   typedef enum SPI_CompletionCode
    {
-	   I2C_IN_PROGRESS = 0,       // also corresponds to !done
-	   I2C_COMPLETED_SUCCESS,     // Completed_Success,
-	   I2C_ARBITRATION_LOST,
-	   I2C_NACK_RESPONSE
-   } I2C_CmplCode_t;
-   
+	   SPI_IN_PROGRESS = 0,       // also corresponds to !done
+	   SPI_COMPLETED_SUCCESS      // Completed_Success,
+   } SPI_CmplCode_t;
    
    
    
@@ -62,15 +59,11 @@
     PUBLIC FUNCTION PROTOTYPES
 ******************************************************************************/
 
-   void MSP430F5529LP_I2C_Initialize(void);
+   void MSP430F5529LP_SPI_Initialize(void);
 
-   I2C_CmplCode_t I2C_Read(uint8_t    address,
-                 uint8_t    *p_reg,
-                 uint16_t   bytes);
-   
-   I2C_CmplCode_t I2C_Write(uint8_t   address,
-                  uint8_t   *p_reg,
-                  uint16_t  bytes);
+   void SPI_Write(uint8_t * p_TxReg,
+                  uint8_t * p_RxReg,
+                  uint16_t bytes);
    
    
 /******************************************************************************
@@ -79,8 +72,8 @@
 
    
 /******************************************************************************
-	End MSP430F5529LP_I2C.h
+	End MSP430F5529LP_SPI.h
 ******************************************************************************/
 
-#endif   // __MSP430F5529LP_I2C_H__
+#endif   // __MSP430F5529LP_SPI_H__
 

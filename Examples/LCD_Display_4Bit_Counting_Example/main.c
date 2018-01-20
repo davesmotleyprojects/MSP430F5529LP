@@ -102,6 +102,12 @@ int main( void )
     // perform initialization
     initialize();
 
+    /* Update the LCD display for the first time. This is done after
+     * initialization because the LCD library uses TimerA2 delay functions,
+     * and global interrupts must be enabled for them to work properly.
+     */
+    Update_LCD_Display();
+
     for (;;)    // Loop forever...
     {
         delay(250);             // perform a blocking delay of 250 ms
@@ -121,44 +127,43 @@ int main( void )
     Outputs:        None
 
 ******************************************************************************/
-void initialize(void)
+static void initialize(void)
 {
     // ###################################################################
-        // Add operating environment initialization here
+    // Add operating environment initialization here
 
-        MSP430F5529LP_CLOCK_Initialize();
-        MSP430F5529LP_TIMERA2_Initialize();
+    MSP430F5529LP_CLOCK_Initialize();
+    MSP430F5529LP_TIMERA2_Initialize();
+    MSP430F5529LP_GPIO_Initialize();
 
-        /* Initialize the 20x4 LCD display
-         * LcdPin_RS =  57;  // P7.4
-         * LcdPin_RW =  35;  // P2.6
-         * LcdPin_EN =  16;  // P8.1
-         * LcdPin_D4 =  44;  // P3.7
-         * LcdPin_D5 =  17;  // P8.2
-         * LcdPin_D6 =  27;  // P1.6
-         * LcdPin_D7 =  36;  // P2.7
-         */
-        LCD_Initialize(57, 35, 16, 44, 17, 27, 36);
-
-
-        // ###################################################################
-        // Add program specific initialization here
-
-        // Enable the Debug LEDs
-        P1DIR_bits.P1DIR0 = 1;         // Set P1.0 (LED1) to an Output
-        P4DIR_bits.P4DIR7 = 1;         // Set P4.7 (LED2) to an Output
-        P1OUT_bits.P1OUT0 = 1;         // Set P1.0 initial value
-        P4OUT_bits.P4OUT7 = 1;         // Set P4.7 initial value
-
-        s_count_u8 = 0u;
-
-        Update_LCD_Display();
+    /* Initialize the 20x4 LCD display
+     * LcdPin_RS =  57;  // P7.4
+     * LcdPin_RW =  35;  // P2.6
+     * LcdPin_EN =  16;  // P8.1
+     * LcdPin_D4 =  44;  // P3.7
+     * LcdPin_D5 =  17;  // P8.2
+     * LcdPin_D6 =  27;  // P1.6
+     * LcdPin_D7 =  36;  // P2.7
+     */
+    LCD_Initialize(57, 35, 16, 44, 17, 27, 36);
 
 
-        // ###################################################################
-        // Last step before exiting, enable global interrupts
+    // ###################################################################
+    // Add program specific initialization here
 
-        __enable_interrupt();
+    // Enable the Debug LEDs
+    P1DIR_bits.P1DIR0 = 1;         // Set P1.0 (LED1) to an Output
+    P4DIR_bits.P4DIR7 = 1;         // Set P4.7 (LED2) to an Output
+    P1OUT_bits.P1OUT0 = 1;         // Set P1.0 initial value
+    P4OUT_bits.P4OUT7 = 1;         // Set P4.7 initial value
+
+    s_count_u8 = 0u;
+
+
+    // ###################################################################
+    // Last step before exiting, enable global interrupts
+
+    __enable_interrupt();
 }
 
 

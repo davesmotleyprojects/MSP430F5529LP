@@ -117,7 +117,6 @@
 ******************************************************************************/
 void MSP430F5529LP_I2C_Initialize(void)
 {
-    __disable_interrupt();
 
     // Reset error collection variables
     s_I2cErrorCnt = 0;
@@ -135,6 +134,7 @@ void MSP430F5529LP_I2C_Initialize(void)
     UCB1CTL0_bits.UCMODEx = 3u;      // Select I2C mode
     UCB1CTL0_bits.UCSYNC = 1u;       // Synchronous mode
     UCB1CTL0_bits.UCMST = 1u;        // Select Master Mode
+    UCB1CTL0_bits.UCMM = 0u;        // Single master env.
     UCB1CTL1_bits.UCSSELx = 3u;      // Select SMCLK Source
     UCB1CTL0_bits.UCSLA10 = 0u;      // 7-bit slave addressing mode
 
@@ -179,18 +179,17 @@ void MSP430F5529LP_I2C_Initialize(void)
 
     UCB1CTL1_bits.UCSWRST  = 0u;      // Enable I2C (not reset)
 
-   __enable_interrupt();
 }
 
 
 /******************************************************************************
-   Subroutine:    function_name
+   Subroutine:    I2C_Read
    Description:   
    Inputs:
    Outputs:
 
 ******************************************************************************/
-void I2C_Read(uint8_t address, uint8_t *p_reg, uint16_t bytes)
+I2C_CmplCode_t I2C_Read(uint8_t address, uint8_t *p_reg, uint16_t bytes)
 {
     while( (UCB1STAT_bits.UCBBUSY) &&
            (UCB1CTL1_bits.UCTXSTP) ) {};
@@ -208,31 +207,33 @@ void I2C_Read(uint8_t address, uint8_t *p_reg, uint16_t bytes)
 
    UCB1CTL1_bits.UCTR = 0u;         // set as receiver
    UCB1CTL1_bits.UCTXSTT = 1u;      // set start bit
+   UCB1IE_bits.UCNACKIE = 1u;      // enable NACK interrupt
    UCB1IE_bits.UCRXIE = 1u;         // enable Rx interrupt
+
 
    done = I2C_IN_PROGRESS;
    s_I2cStart = GetTick();
    
    while ( (done == I2C_IN_PROGRESS) &&
-           (35 > Elapse(s_I2cStart, GetTick())) ) {}
+           (350 > Elapse(s_I2cStart, GetTick())) ) {}
 
    if (I2C_COMPLETED_SUCCESS != done)
    {
        I2cRecovery();
    }
 
-   return;
+   return done;
 }
 
 
 /******************************************************************************
-   Subroutine:    function_name
+   Subroutine:    I2C_Write
    Description:   
    Inputs:
    Outputs:
 
 ******************************************************************************/
-void I2C_Write(uint8_t address, uint8_t * p_reg, uint16_t bytes)
+I2C_CmplCode_t I2C_Write(uint8_t address, uint8_t * p_reg, uint16_t bytes)
 {
     // It is possible to complete the final ISR transaction, and queue up a new
     // i2c transaction while the last one is being completed. This is typically
@@ -255,20 +256,22 @@ void I2C_Write(uint8_t address, uint8_t * p_reg, uint16_t bytes)
 
     UCB1CTL1_bits.UCTR = 1u;        // set as transmitter
     UCB1CTL1_bits.UCTXSTT = 1u;     // set start bit
+    UCB1IE_bits.UCNACKIE = 1u;      // enable NACK interrupt
     UCB1IE_bits.UCTXIE = 1u;        // enable Tx interrupt
+
    
     done = I2C_IN_PROGRESS;
     s_I2cStart = GetTick();
 
     while ( (I2C_IN_PROGRESS == done) &&
-            (35 > Elapse(s_I2cStart, GetTick())) ) {}
+            (350 > Elapse(s_I2cStart, GetTick())) ) {}
 
-    return;
+    return done;
 }
 
 
 /******************************************************************************
-   Subroutine:    function_name
+   Subroutine:    I2cRecovery
    Description:
    Inputs:
    Outputs:
@@ -277,10 +280,6 @@ void I2C_Write(uint8_t address, uint8_t * p_reg, uint16_t bytes)
 static void I2cRecovery(void)
 {
     uint8_t  RstCnt;
-
-    s_I2cErrorCnt++;
-
-    __disable_interrupt();
 
     UCB1CTL1_bits.UCSWRST  = 1u;      // Disable I2C (in reset)
 
@@ -317,18 +316,18 @@ static void I2cRecovery(void)
 
     UCB1CTL1_bits.UCSWRST  = 0u;      // Enable I2C (not reset)
 
-    __enable_interrupt();
 }
 
 
 /******************************************************************************
-   Subroutine:    USCIB0_I2C_TxRx_ISR
+   Subroutine:    USCIB1_I2C_ISR
    Description:   
    Inputs:
    Outputs:
 
 ******************************************************************************/
-void __attribute__((__interrupt__(USCI_B1_VECTOR))) USCIB1_I2C_ISR(void)
+__attribute__((interrupt(USCI_B1_VECTOR)))
+void USCIB1_I2C_ISR(void)
 { 
     static uint16_t UCB1IVector;
 
@@ -361,9 +360,11 @@ void __attribute__((__interrupt__(USCI_B1_VECTOR))) USCIB1_I2C_ISR(void)
 
 
 /******************************************************************************
-   Subroutine:    I2cIsr0Rx
+   Subroutine:    I2cIsr1Rx
    Description:   This ISR configures the MSP430 I2C USCI module to RX & TX
    SMBus commands & data in both Master and Slave configurations. 
+   Inputs:
+   Outputs:
 
 ******************************************************************************/
 static void I2cIsr1Rx(void)
@@ -413,9 +414,11 @@ static void I2cIsr1Rx(void)
 
 
 /******************************************************************************
-   Subroutine:    I2cIsr0Rx
+   Subroutine:    I2cIsr1Tx
    Description:   This ISR configures the MSP430 I2C USCI module to RX & TX
    SMBus commands & data in both Master and Slave configurations. 
+   Inputs:
+   Outputs:
 
 ******************************************************************************/
 static void I2cIsr1Tx(void)
@@ -447,6 +450,8 @@ static void I2cIsr1Tx(void)
 /******************************************************************************
    Subroutine:    I2cIsr1Stat
    Description:
+   Inputs:
+   Outputs:
 
 ******************************************************************************/
 static void I2cIsr1Stat(void)
@@ -494,6 +499,8 @@ static void I2cIsr1Stat(void)
 /******************************************************************************
    Subroutine:    I2cIsr1Unhandled
    Description:
+   Inputs:
+   Outputs:
 
 ******************************************************************************/
 static void I2cIsr1Unhandled(void)

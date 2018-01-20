@@ -151,7 +151,8 @@ void Set_WDT_Timer(uint16_t index, uint16_t timeout_in_sec, WDT_Callback callbac
     Outputs:        None
 
 ******************************************************************************/
-void __attribute__((__interrupt__(WDT_VECTOR))) WDT_ISR(void)
+__attribute__((interrupt(WDT_VECTOR)))
+void WDT_ISR(void)
 {
     uint16_t    x;
 

@@ -30,9 +30,10 @@
  * demonstration for registering a button with the button service, and toggling
  * the LED when the callback indicates that a button event has occurred.
  *
- * Version 1.0
+ * Version 2.0
  *
  * Rev. 1.0, Initial Release
+ * Rev. 2.0, Added asm("NOP"); before EINT.
  *
  *                                                                            */
 /* ===========================================================================*/
@@ -133,6 +134,7 @@ void initialize(void)
     // ###################################################################
     // Last step before exiting, enable global interrupts
 
+    asm("NOP");
     __enable_interrupt();
 }
 

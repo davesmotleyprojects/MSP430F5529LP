@@ -39,7 +39,7 @@
  * main loop to perform other tasks until the delay expires. This will be
  * explained in a separate non-blocking delay example.
  *
- * Version 1.0
+ * Version 1.1
  *
  * Rev. 1.0, Initial Release
  * Rev. 1.1, Minor editorial updates and cleanup
@@ -136,6 +136,7 @@ void initialize(void)
     // ###################################################################
     // Last step before exiting, enable global interrupts
 
+    asm("NOP");
     __enable_interrupt();
 
     // IMPORTANT: Even though the main code does not use interrupts in this

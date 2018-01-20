@@ -99,11 +99,12 @@
 void MSP430F5529LP_TIMERA2_Initialize(void)
 {
     // Setup Timer A2 to generate an interrupt every 1 ms.
-    TA2CCTL0_bits.CCIE = 1;         // CCR0 interrupt enabled
     TA2CTL_bits.TACLR = 1;          // clear
     TA2CTL_bits.MCx = 1;            // upmode
     TA2CTL_bits.TASSELx = 2;        // SMCLK
     TA2CTL_bits.IDx = 0;            // divided by 1
+
+    TA2CCTL0_bits.CCIE = 1;         // CCR0 interrupt enabled
     TA2CCR0 = 24000;                // 1ms
     
     // Initialize the current tick counters
@@ -124,7 +125,8 @@ void MSP430F5529LP_TIMERA2_Initialize(void)
     Outputs:        None     
 
 ******************************************************************************/
-void __attribute__((__interrupt__(TIMER2_A0_VECTOR))) TIMER2_A0_ISR(void)
+__attribute__((interrupt(TIMER2_A0_VECTOR)))
+void TIMER2_A0_ISR(void)
 {
     // Increment each of the tick counters
     s_CurrentTick++;
@@ -257,6 +259,7 @@ uint32_t GetTick32(void)
   
    retVal = s_CurrentTick32;
    
+   asm("NOP");
    __enable_interrupt();
    
    return retVal;
@@ -290,6 +293,7 @@ uint32_t Elapse32(uint32_t start, uint32_t stop)
 
     retVal = stop - start;
 
+    asm("NOP");
     __enable_interrupt();
 
     return retVal;
@@ -325,6 +329,7 @@ uint32_t Expired32(uint32_t duration, uint32_t start, uint32_t stop)
 
     retVal = (duration <= (stop - start));
 
+    asm("NOP");
     __enable_interrupt();
 
     return retVal;

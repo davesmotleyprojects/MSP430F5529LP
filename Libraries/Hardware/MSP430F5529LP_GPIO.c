@@ -68,6 +68,24 @@
 ******************************************************************************/
 
 
+
+/******************************************************************************
+    Subroutine:     MSP430F5529LP_GPIO_Initialize
+    Description:    Initializes GPIO library.
+    Inputs:         None
+    Outputs:        None
+
+******************************************************************************/
+void MSP430F5529LP_GPIO_Initialize(void)
+{
+    /* Currently the GPIO library requires no intialization. It is however a
+     * good practice to initialize all of the operating environment libraries
+     * being used. In the future, if additional features are added to this
+     * library that require initialization, that will be done here.
+     */
+}
+
+
 /******************************************************************************
     Subroutine:     pinDirection
     Description:    Function to set pin direction (input or output)
